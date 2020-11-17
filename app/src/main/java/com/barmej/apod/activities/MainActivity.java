@@ -36,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -123,9 +124,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private boolean zoomOut = false;
 
-    /*
-    nitialize  variables
-     */
+    private DatePicker datePicker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
         */
         Calendar newCalender = Calendar.getInstance();
         newDate = String.format( Locale.getDefault(), "%d-%d-%d", newCalender.get( Calendar.YEAR ), newCalender.get( Calendar.MONTH ), newCalender.get( Calendar.DAY_OF_MONTH ) );
+
 
         if (savedInstanceState == null) {
             requestApod( newDate );
@@ -212,19 +213,26 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate( R.menu.main_menu, menu );
         downloadMenuItem = menu.findItem( R.id.action_download_hd );
 
+
+        //Return true to display the menu
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
         if (astronomy != null && astronomy.getMediaType().equals( "image" )) {
             downloadMenuItem.setVisible( true );
         } else {
             downloadMenuItem.setVisible( false );
         }
 
-        //Return true to display the menu
-        return true;
+        return super.onPrepareOptionsMenu( menu );
     }
 
     /*
-      cliick on menu item to choose an item
-     */
+          cliick on menu item to choose an item
+         */
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
 
@@ -285,15 +293,23 @@ public class MainActivity extends AppCompatActivity {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 Calendar newCalender = Calendar.getInstance();
                 newCalender.set( year, month, dayOfMonth );
-
                 newDate = String.format( Locale.getDefault(), "%d-%d-%d", year, month, dayOfMonth );
                 requestApod( newDate );
+                datePicker = new DatePicker( getApplicationContext() );
+                datePicker.init( year, month + 1, dayOfMonth, null );
 
             }
         }, year, month, dayOfMonth );
+
+        if (datePicker != null) {
+            datePickerDialog.updateDate( datePicker.getYear(), datePicker.getMonth() - 1, datePicker.getDayOfMonth() );
+        }
         datePickerDialog.show();
     }
 
+    /*
+     SharePicture
+     */
     private void sharePictureIntent() {
         if (astronomy.getMediaType().equals( "image" )) {
             Intent shareIntent = new Intent( Intent.ACTION_SEND );
