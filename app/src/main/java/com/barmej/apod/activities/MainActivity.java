@@ -124,6 +124,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private boolean zoomOut = false;
 
+    /*
+      DatePiker variable
+     */
     private DatePicker datePicker;
 
     @Override
@@ -139,9 +142,7 @@ public class MainActivity extends AppCompatActivity {
         homeLayout = findViewById( R.id.home_layout );
         bottomSheet = findViewById( R.id.bottom_sheet );
 
-
-
-       /*
+        /*
        Create Calender object to choose date to show picture/video
         */
         Calendar newCalender = Calendar.getInstance();
@@ -155,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
             showData();
         }
     }
-
 
     /*
      requestApod method to GET data from networkUtils as aJsonObjectRequest
@@ -212,8 +212,6 @@ public class MainActivity extends AppCompatActivity {
         //Use the inflater's inflate method to inflate main_menu layout
         inflater.inflate( R.menu.main_menu, menu );
         downloadMenuItem = menu.findItem( R.id.action_download_hd );
-
-
         //Return true to display the menu
         return true;
     }
@@ -231,8 +229,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*
-          cliick on menu item to choose an item
-         */
+     cliick on menu item to choose an item
+     */
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
 
